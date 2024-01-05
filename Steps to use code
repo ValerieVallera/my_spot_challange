@@ -31,3 +31,5 @@ $ rosrun my_spot_pkg spot_challenge.py
 Sources: 
 
 https://dev.bostondynamics.com/docs/python/quickstart
+
+https://dev.bostondynamics.com/docs/python/quickstart#manage-multiple-python-environments-with-virtualenv
