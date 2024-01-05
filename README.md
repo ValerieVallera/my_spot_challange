@@ -1,6 +1,6 @@
 # my_spot_challange
 
-This Python script controls a robot, called Spot. The script is a set of instructions for Spot's actions. Let's break down the steps:
+This Python script controls a robot called Spot, manufactured by Boston Dynamics. The script is a set of instructions for Spot's actions. Let's break down the steps:
 
 Setup Authentication: The script starts by getting authentication cookies to connect with Spot using a username and password. It uses these cookies to authenticate subsequent requests.
 
