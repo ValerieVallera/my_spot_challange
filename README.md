@@ -33,6 +33,8 @@ Sources:
 
 https://dev.bostondynamics.com/
 
+https://dev.bostondynamics.com/docs/python/quickstart
+
 https://dev.bostondynamics.com/docs/python/understanding_spot_programming
 
 https://dev.bostondynamics.com/python/examples/estop/readme
