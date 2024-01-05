@@ -2,7 +2,6 @@
 
 import json
 import requests
-import time
 import jwt
 import numpy as np
 import bosdyn.client
