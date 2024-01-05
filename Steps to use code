@@ -19,10 +19,10 @@ $ python3 -m pip install bosdyn-client==3.3.2 bosdyn-mission==3.3.2 bosdyn-chore
 $ ping 192.168.80.3
 
 6.step/ get a full copy of the spot SDK 
-git clone https://github.com/boston-dynamics/spot-sdk.git
+$ git clone https://github.com/boston-dynamics/spot-sdk.git
 
 7.step/ create a pkg with the correct dependecies
-catkin_create my_spot_pkg rospy std_msgsg spot_msgs python ...
+$ catkin_create my_spot_pkg rospy std_msgsg spot_msgs python ...
 
 8.step/ run the program in the spotenv
-rosrun my_spot_pkg spot_challenge.py
+$ rosrun my_spot_pkg spot_challenge.py
