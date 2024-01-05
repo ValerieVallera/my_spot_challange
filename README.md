@@ -30,4 +30,5 @@ This script is like a remote control for Spot, sending it a sequence of commands
 
 sources:
 https://dev.bostondynamics.com/
+
 https://www.w3schools.com/python/python_classes.asp
