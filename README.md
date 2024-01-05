@@ -28,7 +28,8 @@ Lease Release: Finally, the lease is released, indicating that the script is don
 
 This script is like a remote control for Spot, sending it a sequence of commands to perform various actions, from standing up to moving around, and finally powering off.
 
-sources:
+
+Sources:
 
 https://dev.bostondynamics.com/
 
