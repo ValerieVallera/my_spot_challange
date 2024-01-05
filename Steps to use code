@@ -26,3 +26,8 @@ $ catkin_create my_spot_pkg rospy std_msgsg spot_msgs python ...
 
 8.step/ run the program in the spotenv
 $ rosrun my_spot_pkg spot_challenge.py
+
+
+Sources: 
+
+https://dev.bostondynamics.com/docs/python/quickstart
