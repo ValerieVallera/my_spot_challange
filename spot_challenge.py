@@ -94,15 +94,15 @@ class SpotController:
         # wraps several RobotCommand RPC calls
         blocking_stand(spot.command_client, timeout_sec=timeout_sec)
 
+    def raise_up(spot, height):
+        # Command Spot to raise up.
+        cmd = RobotCommandBuilder.synchro_stand_command(body_height=height)
+        spot.command_client.robot_command(cmd)
+
     def rotate_around_z(spot, angle):
         # Command Spot to rotate about the Z-axis.
         footprint_R_body = EulerZXY(yaw=angle, roll=0.0, pitch=0.0)
         cmd = RobotCommandBuilder.synchro_stand_command(footprint_R_body=footprint_R_body)
-        spot.command_client.robot_command(cmd)
-
-    def raise_up(spot, height):
-        # Command Spot to raise up.
-        cmd = RobotCommandBuilder.synchro_stand_command(body_height=height)
         spot.command_client.robot_command(cmd)
 
     # setting spot-commands to move
@@ -143,11 +143,11 @@ if __name__ == "__main__":
         # stand the robot
         spot_controller.stand_robot()
 
-        # rotate Spot about the Z-axis
-        spot_controller.rotate_around_z(angle=0.4)
-
         # raise up Spot
         spot_controller.raise_up(height=0.1)
+
+        # rotate Spot about the Z-axis
+        spot_controller.rotate_around_z(angle=0.4)
 
         # movement of Spot
         spot_controller.move_robot(linear_velocity=0.2, angular_velocity=0.1)
