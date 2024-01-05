@@ -44,3 +44,5 @@ https://www.w3schools.com/python/python_json.asp
 https://www.w3schools.com/python/python_functions.asp
 
 https://www.w3schools.com/python/module_requests.asp
+
+https://www.w3schools.com/python/numpy/numpy_getting_started.asp
