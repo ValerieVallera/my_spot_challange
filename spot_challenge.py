@@ -132,4 +132,34 @@ if __name__ == "__main__":
         # power on the robot
         spot_controller.power_on_robot()
 
-        # check if the robot is powered on and print information
+        # check if the robot is powered on and print information (output) 
+        if spot_controller.is_robot_powered_on():
+            print("Robot is powered on.")
+        else:
+            print("Robot is not powered on.")
+
+        # wait for time synchronization
+        spot_controller.wait_for_time_sync()
+
+        # stand the robot
+        spot_controller.stand_robot()
+
+        # rotate Spot about the Z-axis
+        spot_controller.rotate_around_z(angle=0.4)
+
+        # raise up Spot
+        spot_controller.raise_up(height=0.1)
+
+        # movement of Spot
+        spot_controller.move_robot(linear_velocity=0.2, angular_velocity=0.1)
+
+        # power off the robot (optionally cut power immediately)
+        spot_controller.power_off_robot(cut_immediately=False)
+
+    except ResponseError as e:
+        print(f"Malfunction: {e}")
+
+    finally:
+        # Lease Freigabe
+        spot_controller.release_lease(lease)
+
