@@ -1,1 +1,28 @@
+1.step/ make sure to have the correct version of python installed 
+$ python --version
+Python 3.6.8
 
+2.step/ make sure to have the correct version of pip installed
+$ python3 -m pip --version
+pip 19.2.1 from <PATH_ON_YOUR_COMPUTER>
+
+3.step/ install an virtualenv 
+$ python3 -m pip install virtualenv
+$ python3 -m virtualenv --python=/usr/bin/python3 my_spot_env
+$ source my_spot_env/bin/activate
+$ (install packages including Spot SDK, code, edit, execute, etc.)
+
+4.step/ install spot python packages 
+$ python3 -m pip install bosdyn-client==3.3.2 bosdyn-mission==3.3.2 bosdyn-choreography-client==3.3.2
+
+5.step/ connect to spot via wifi and ping spot
+$ ping 192.168.80.3
+
+6.step/ get a full copy of the spot SDK 
+git clone https://github.com/boston-dynamics/spot-sdk.git
+
+7.step/ create a pkg with the correct dependecies
+catkin_create my_spot_pkg rospy std_msgsg spot_msgs python ...
+
+8.step/ run the program in the spotenv
+rosrun my_spot_pkg spot_challenge.py
