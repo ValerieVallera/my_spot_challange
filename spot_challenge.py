@@ -35,87 +35,87 @@ else:
 
 # Spot-Steuerung
 class SpotController:
-    def __init__(self, robot_ip):
+    def __init__(spot, robot_ip):
         # creating an SDK object
-        self.sdk = create_standard_sdk('understanding-spot')
+        spot.sdk = create_standard_sdk('understanding-spot')
 
         # creating a robot object to retrieve the robot id
-        self.robot = self.sdk.create_robot(robot_ip)
+        spot.robot = spot.sdk.create_robot(robot_ip)
 
         # managing lease-Service with lease-client
-        self.lease_client = self.robot.ensure_client(LeaseClient.default_service_name)
-        self.robot_state_client = self.robot.ensure_client(RobotStateClient.default_service_name)
+        spot.lease_client = spot.robot.ensure_client(LeaseClient.default_service_name)
+        spot.robot_state_client = spot.robot.ensure_client(RobotStateClient.default_service_name)
 
         # creating a RobotIdClient of the robot-id service
-        self.id_client = self.robot.ensure_client('robot-id')
+        spot.id_client = spot.robot.ensure_client('robot-id')
 
         # creating an E-Stop client
-        self.estop_client = self.robot.ensure_client('estop')
+        spot.estop_client = spot.robot.ensure_client('estop')
 
         # creating and register an E-Stop Endpoint
-        self.estop_endpoint = EstopEndpoint(client=self.estop_client, name='my_estop', estop_timeout=9.0)
-        self.estop_endpoint.force_simple_setup()
+        spot.estop_endpoint = EstopEndpoint(client=spot.estop_client, name='my_estop', estop_timeout=9.0)
+        spot.estop_endpoint.force_simple_setup()
 
         # get E-Stop status
-        estop_status = self.estop_client.get_status()
+        estop_status = spot.estop_client.get_status()
         print("E-Stop Status:", estop_status)
 
         # creating and start E-Stop Keep Alive
-        self.estop_keep_alive = EstopKeepAlive(self.estop_endpoint)
+        spot.estop_keep_alive = EstopKeepAlive(spot.estop_endpoint)
 
         # create a RobotCommandClient
-        self.command_client = self.robot.ensure_client(RobotCommandBuilder.default_service_name)
+        spot.command_client = spot.robot.ensure_client(RobotCommandBuilder.default_service_name)
 
-    def acquire_lease(self):
+    def acquire_lease(spot):
         # creating acquire-lease in case there is no remote mission callback
-        lease_proto = self.lease_client.acquire()
+        lease_proto = spot.lease_client.acquire()
 
         # KeepAlive-function
-        lease = LeaseKeepAlive(self.lease_client, lease_proto)
+        lease = LeaseKeepAlive(spot.lease_client, lease_proto)
         return lease
 
-    def release_lease(self, lease):
+    def release_lease(spot, lease):
         lease.release()
 
-    def get_robot_state(self):
-        state = self.robot_state_client.get_robot_state()
+    def get_robot_state(spot):
+        state = spot.robot_state_client.get_robot_state()
         return state
 
-    def power_on_robot(self, timeout_sec=20):
-        self.robot.power_on(timeout_sec)
+    def power_on_robot(spot, timeout_sec=20):
+        spot.robot.power_on(timeout_sec)
 
-    def is_robot_powered_on(self):
-        return self.robot.is_powered_on()
+    def is_robot_powered_on(spot):
+        return spot.robot.is_powered_on()
 
-    def wait_for_time_sync(self):
-        self.robot.time_sync.wait_for_sync()
+    def wait_for_time_sync(spot):
+        spot.robot.time_sync.wait_for_sync()
 
     
-    def stand_robot(self, timeout_sec=10):
+    def stand_robot(spot, timeout_sec=10):
         # wraps several RobotCommand RPC calls
-        blocking_stand(self.command_client, timeout_sec=timeout_sec)
+        blocking_stand(spot.command_client, timeout_sec=timeout_sec)
 
-    def rotate_around_z(self, angle):
+    def rotate_around_z(spot, angle):
         # Command Spot to rotate about the Z-axis.
         footprint_R_body = EulerZXY(yaw=angle, roll=0.0, pitch=0.0)
         cmd = RobotCommandBuilder.synchro_stand_command(footprint_R_body=footprint_R_body)
-        self.command_client.robot_command(cmd)
+        spot.command_client.robot_command(cmd)
 
-    def raise_up(self, height):
+    def raise_up(spot, height):
         # Command Spot to raise up.
         cmd = RobotCommandBuilder.synchro_stand_command(body_height=height)
-        self.command_client.robot_command(cmd)
+        spot.command_client.robot_command(cmd)
 
     # setting spot-commands to move
-    def move_robot(self, linear_velocity, angular_velocity):
-        command = self.robot.command_builder.safe_power_off_command()
+    def move_robot(spot, linear_velocity, angular_velocity):
+        command = spot.robot.command_builder.safe_power_off_command()
         command.set_linear_velocity(linear_velocity)
         command.set_angular_velocity(angular_velocity)
-        self.robot.command_client.robot_command(command)
+        spot.robot.command_client.robot_command(command)
 
     #power off Spot     
-    def power_off_robot(self, cut_immediately=False):
-        self.robot.power_off(cut_immediately)
+    def power_off_robot(spot, cut_immediately=False):
+        spot.robot.power_off(cut_immediately)
 
 # SpotController
 if __name__ == "__main__":
@@ -132,33 +132,4 @@ if __name__ == "__main__":
         # power on the robot
         spot_controller.power_on_robot()
 
-        # check if the robot is powered on and print information (output) 
-        if spot_controller.is_robot_powered_on():
-            print("Robot is powered on.")
-        else:
-            print("Robot is not powered on.")
-
-        # wait for time synchronization
-        spot_controller.wait_for_time_sync()
-
-        # stand the robot
-        spot_controller.stand_robot()
-
-        # rotate Spot about the Z-axis
-        spot_controller.rotate_around_z(angle=0.4)
-
-        # raise up Spot
-        spot_controller.raise_up(height=0.1)
-
-        # movement of Spot
-        spot_controller.move_robot(linear_velocity=0.2, angular_velocity=0.1)
-
-        # power off the robot (optionally cut power immediately)
-        spot_controller.power_off_robot(cut_immediately=False)
-
-    except ResponseError as e:
-        print(f"Malfunction: {e}")
-
-    finally:
-        # Lease Freigabe
-        spot_controller.release_lease(lease)
+        # check if the robot is powered on and print information
