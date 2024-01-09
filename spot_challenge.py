@@ -37,7 +37,7 @@ else:
 class SpotController:
     def __init__(spot, robot_ip):
         # creating an SDK object
-        spot.sdk = create_standard_sdk('understanding-spot')
+        spot.sdk = create_standard_sdk('RobotStateClient')
 
         # creating a robot object to retrieve the robot id
         spot.robot = spot.sdk.create_robot(robot_ip)
