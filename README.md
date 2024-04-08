@@ -1,4 +1,4 @@
-# my_spot_challange
+# my_spot_challenge
 
 This Python script controls a robot called Spot, manufactured by Boston Dynamics. The script is a set of instructions for Spot's actions. Let's break down the steps:
 
